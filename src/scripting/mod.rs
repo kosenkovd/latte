@@ -4,11 +4,12 @@ use rune::{ContextError, Module};
 use rust_embed::RustEmbed;
 use std::collections::HashMap;
 
-mod bind;
+pub mod bind;
 pub mod cass_error;
 pub mod connect;
 pub mod context;
-mod cql_types;
+pub mod cql_types;
+pub mod executor;
 mod functions;
 
 #[derive(RustEmbed)]
@@ -28,6 +29,9 @@ fn try_install(
     context_module.function_meta(functions::execute)?;
     context_module.function_meta(functions::prepare)?;
     context_module.function_meta(functions::execute_prepared)?;
+    context_module.function_meta(functions::query_prepared)?;
+    context_module.function_meta(functions::get)?;
+    context_module.function_meta(functions::put)?;
     context_module.function_meta(functions::elapsed_secs)?;
 
     let mut err_module = Module::default();
